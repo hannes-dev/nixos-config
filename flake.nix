@@ -21,7 +21,6 @@
 
           ({ pkgs, ... }: {
             users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf hannes@tatsu" ];
-            networking.networkmanager.enable = true; # dhcp?
             environment.systemPackages = [ pkgs.vim ];
             isoImage.squashfsCompression = "zstd -Xcompression-level 6";
           })
