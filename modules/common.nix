@@ -14,11 +14,12 @@
     LC_TIME = "nl_BE.UTF-8";
   };
 
+  nix.settings.trusted-users = [ "root" "hannes" ];
   users.users.hannes = {
     shell = pkgs.fish;
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
-    openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf hannes@tatsu" ];
+    openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOEPMl3fFGeNzvprnt5kWBfa9dRahnYCsbD8TNM3i0Jf" ];
   };
 
   programs.fish.enable = true;
