@@ -64,6 +64,7 @@
     jujutsu
     gcc
     gnumake
+    wakatime-cli
 
     # nix language servers
     nil
