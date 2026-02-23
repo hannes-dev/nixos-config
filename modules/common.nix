@@ -32,6 +32,7 @@
   };
 
   programs.fish.enable = true;
+  documentation.man.generateCaches = false;
 
   environment.systemPackages = with pkgs; [
     git

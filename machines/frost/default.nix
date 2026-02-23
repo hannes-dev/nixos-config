@@ -4,6 +4,7 @@
     ./../../modules/server.nix
     ./../../modules/pterodactyl/pyropanel.nix
     ./../../modules/pterodactyl/wings.nix
+    ./../../modules/server/wakapi.nix
   ];
 
   boot.loader.grub.enable = true;
@@ -37,6 +38,8 @@
     enable = true;
     fqdn = "frost.klinckaert.be";
   };
+
+  myServices.wakapi.enable = true;
 
   system.stateVersion = "26.05";
 }
