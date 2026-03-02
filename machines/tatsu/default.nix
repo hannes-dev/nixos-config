@@ -35,6 +35,7 @@
 
   time.timeZone = "Europe/Brussels";
 
+  security.sudo.extraConfig = "Defaults insults, pwfeedback";
   users.users.hannes = {
     extraGroups = [
       "input"
