@@ -5,6 +5,7 @@
     ./../../modules/pterodactyl/pyropanel.nix
     ./../../modules/pterodactyl/wings.nix
     ./../../modules/server/wakapi.nix
+    ./../../modules/server/kuma.nix
   ];
 
   boot.loader.grub.enable = true;
@@ -52,6 +53,7 @@
   };
 
   myServices.wakapi.enable = true;
+  myServices.kuma.enable = true;
 
   system.stateVersion = "26.05";
 }
