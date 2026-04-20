@@ -16,12 +16,19 @@
     supportedFilesystems = [ "bcachefs" ];
     kernelPackages = pkgs.linuxPackages_latest;
   };
+
   networking = {
     firewall = {
-      enable = false;
+      enable = true;
       checkReversePath = "loose";
-      allowedTCPPorts = [ 8000 ];
+      allowedTCPPorts = [ 8080 ];
       allowedUDPPorts = [ ];
+
+      # set incoming packages time to live to 64
+      # this fixes container networking for networks who stop re-routing by setting TTL to 1
+      extraCommands = ''
+        iptables -t mangle -I PREROUTING 1 -i wlp0s20f3 -j TTL --ttl-set 64
+      '';
     };
 
     networkmanager.enable = true;
@@ -42,6 +49,7 @@
       "input"
       "wireshark"
       "dialout"
+      "docker"
     ];
   };
 
@@ -51,16 +59,7 @@
 
   virtualisation = {
     podman.enable = true;
-    docker.rootless = {
-      enable = true;
-      setSocketVariable = true;
-      daemon.settings = {
-        dns = [
-          "8.8.8.8"
-          "1.1.1.1"
-        ];
-      };
-    };
+    docker.enable = true;
   };
 
   programs = {
