@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    agenix.url = "github:ryantm/agenix";
   };
 
   outputs =
@@ -11,6 +12,7 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
+      agenix,
       ...
     }@inputs:
     let
@@ -30,6 +32,7 @@
           };
           modules = [
             { networking.hostName = hostname; }
+            agenix.nixosModules.default
             ./modules/common.nix
             ./machines/${hostname}/default.nix
           ];

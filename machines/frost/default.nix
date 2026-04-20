@@ -1,11 +1,13 @@
+{ config, ... }:
 {
   imports = [
     ./hardware-configuration.nix
-    ./../../modules/server/ssh.nix
     ./../../modules/pterodactyl/pyropanel.nix
     ./../../modules/pterodactyl/wings.nix
-    ./../../modules/server/wakapi.nix
     ./../../modules/server/kuma.nix
+    ./../../modules/server/pocket-id.nix
+    ./../../modules/server/ssh.nix
+    ./../../modules/server/wakapi.nix
   ];
 
   boot.loader.grub.enable = true;
@@ -50,6 +52,17 @@
   myServices.wings = {
     enable = true;
     fqdn = "frost.klinckaert.be";
+  };
+
+  age.secrets."pocket-id.env" = {
+    file = ../../secrets/pocket-id.env.age;
+    owner = "pocket-id";
+    group = "pocket-id";
+  };
+
+  myServices.pocket-id = {
+    enable = true;
+    envFile = config.age.secrets."pocket-id.env".path;
   };
 
   myServices.wakapi.enable = true;
