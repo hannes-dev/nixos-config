@@ -68,6 +68,7 @@
     fish.enable = true;
     steam.enable = true;
     wireshark.enable = true;
+    nix-index-database.comma.enable = true;
   };
 
   services = {

@@ -41,7 +41,6 @@
     bat
     tldr
     taskwarrior3
-    comma
     atuin
     man-pages
     man-pages-posix

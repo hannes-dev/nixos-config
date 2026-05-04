@@ -5,6 +5,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -13,6 +17,7 @@
       nixpkgs,
       nixpkgs-unstable,
       agenix,
+      nix-index-database,
       ...
     }@inputs:
     let
@@ -35,6 +40,7 @@
             agenix.nixosModules.default
             ./modules/common.nix
             ./machines/${hostname}/default.nix
+            nix-index-database.nixosModules.default
           ];
         };
 
