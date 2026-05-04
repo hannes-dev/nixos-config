@@ -45,44 +45,47 @@
     '';
   };
 
-  myServices.pyropanel = {
-    enable = true;
-    fqdn = "crux.klinckaert.be";
-  };
-
-  myServices.wings = {
-    enable = true;
-    fqdn = "frost.klinckaert.be";
-  };
-
   age.secrets."pocket-id.env" = {
     file = ../../secrets/pocket-id.env.age;
     owner = "pocket-id";
     group = "pocket-id";
   };
 
-  myServices.pocket-id = {
-    enable = true;
-    envFile = config.age.secrets."pocket-id.env".path;
-  };
-
   age.secrets."wakapi.env" = {
     file = ../../secrets/wakapi.env.age;
-  };
-  myServices.wakapi = {
-    enable = true;
-    envFile = config.age.secrets."wakapi.env".path;
   };
 
   age.secrets."tududi.env" = {
     file = ../../secrets/tududi.env.age;
   };
-  myServices.tududi = {
-    enable = true;
-    envFile = config.age.secrets."tududi.env".path;
-  };
 
-  myServices.kuma.enable = true;
+  myServices = {
+    pyropanel = {
+      enable = true;
+      fqdn = "crux.klinckaert.be";
+    };
+
+    wings = {
+      enable = true;
+      fqdn = "frost.klinckaert.be";
+    };
+
+    pocket-id = {
+      enable = true;
+      envFile = config.age.secrets."pocket-id.env".path;
+    };
+    wakapi = {
+      enable = true;
+      envFile = config.age.secrets."wakapi.env".path;
+    };
+    tududi = {
+      enable = true;
+      envFile = config.age.secrets."tududi.env".path;
+    };
+
+    vikunja.enable = true;
+    kuma.enable = true;
+  };
 
   users.users.breakglass = {
     isNormalUser = true;
