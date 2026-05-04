@@ -51,6 +51,7 @@
     {
       nixosConfigurations = {
         frost = mkMachine { hostname = "frost"; };
+        puk = mkMachine { hostname = "puk"; };
         tatsu = mkMachine { hostname = "tatsu"; };
 
         kotpi = mkMachine {
