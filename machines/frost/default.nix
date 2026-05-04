@@ -6,8 +6,9 @@
     ./../../modules/pterodactyl/wings.nix
     ./../../modules/server/kuma.nix
     ./../../modules/server/pocket-id.nix
+    ./../../modules/server/silverbullet.nix
     ./../../modules/server/ssh.nix
-    ./../../modules/server/tududi.nix
+    ./../../modules/server/vikunja.nix
     ./../../modules/server/wakapi.nix
   ];
 
@@ -44,19 +45,18 @@
       reverse_proxy kotpi.net:8123
     '';
   };
-
-  age.secrets."pocket-id.env" = {
-    file = ../../secrets/pocket-id.env.age;
-    owner = "pocket-id";
-    group = "pocket-id";
-  };
-
-  age.secrets."wakapi.env" = {
-    file = ../../secrets/wakapi.env.age;
-  };
-
-  age.secrets."tududi.env" = {
-    file = ../../secrets/tududi.env.age;
+  age.secrets = {
+    "pocket-id.env" = {
+      file = ../../secrets/pocket-id.env.age;
+      owner = "pocket-id";
+      group = "pocket-id";
+    };
+    "wakapi.env" = {
+      file = ../../secrets/wakapi.env.age;
+    };
+    "silverbullet.env" = {
+      file = ../../secrets/silverbullet.env.age;
+    };
   };
 
   myServices = {
@@ -78,9 +78,9 @@
       enable = true;
       envFile = config.age.secrets."wakapi.env".path;
     };
-    tududi = {
+    silverbullet = {
       enable = true;
-      envFile = config.age.secrets."tududi.env".path;
+      envFile = config.age.secrets."silverbullet.env".path;
     };
 
     vikunja.enable = true;

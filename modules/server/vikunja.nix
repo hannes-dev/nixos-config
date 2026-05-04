@@ -9,7 +9,7 @@ let
 in
 {
   options.myServices.vikunja = {
-    enable = lib.mkEnableOption "Vikunja wrapper";
+    enable = lib.mkEnableOption "Vikunja";
 
     domain = lib.mkOption {
       type = lib.types.str;
@@ -19,7 +19,6 @@ in
     port = lib.mkOption {
       type = lib.types.port;
       default = 21071;
-      description = "Local port to bind the Vikunja service to.";
     };
   };
 

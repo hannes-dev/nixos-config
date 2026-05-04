@@ -18,4 +18,8 @@ in
     hannes
     frost
   ];
+  "silverbullet.env.age".publicKeys = [
+    hannes
+    frost
+  ];
 }
