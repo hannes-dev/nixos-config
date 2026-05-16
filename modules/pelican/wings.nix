@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -10,8 +11,8 @@ let
 in
 {
   options.myServices.wings = {
-    enable = mkEnableOption "Pterodactyl Wings Node";
-    fqdn = mkOption {
+    enable = mkEnableOption "Pelican Wings Node";
+    domain = mkOption {
       type = types.str;
       description = "The domain name for this Wings node.";
     };
@@ -19,11 +20,12 @@ in
 
   config = mkIf cfg.enable {
     networking.firewall = {
-      trustedInterfaces = [ "pterodactyl0" ];
+      trustedInterfaces = [ "wings0" ];
 
       allowedTCPPorts = [
         80
         443
+        2022
       ];
       allowedTCPPortRanges = [
         {
@@ -41,31 +43,62 @@ in
 
     services.caddy = {
       enable = true;
-      virtualHosts."${cfg.fqdn}".extraConfig = ''
+      virtualHosts."${cfg.domain}".extraConfig = ''
         reverse_proxy 127.0.0.1:9000
       '';
     };
 
     systemd.tmpfiles.rules = [
-      "d /run/wings 0755 root root -"
-      "d /tmp/pterodactyl 0755 root root -"
+      "d /etc/pelican 0755 root root -"
+      "d /var/lib/pelican 0755 root root -"
+      "d /var/log/pelican 0755 root root -"
+      "d /tmp/pelican 0755 root root -"
     ];
 
-    virtualisation.oci-containers.containers.wings = {
-      image = "ghcr.io/pterodactyl/wings:v1.12.1";
-      ports = [
-        "127.0.0.1:9000:443" # API proxied by Caddy
-        "0.0.0.0:2022:2022" # SFTP exposed directly
+    systemd.services.init-wings-network = {
+      description = "Create Docker network for Pelican Wings";
+      after = [
+        "network.target"
+        "docker.service"
       ];
+      requires = [ "docker.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        ${pkgs.docker}/bin/docker network inspect wings0 >/dev/null 2>&1 || \
+        ${pkgs.docker}/bin/docker network create \
+          --driver bridge \
+          --subnet 172.21.0.0/16 \
+          -o com.docker.network.bridge.name=wings0 \
+          wings0
+      '';
+    };
+
+    virtualisation.oci-containers.containers.wings = {
+      image = "ghcr.io/pelican-dev/wings:latest";
+      ports = [
+        "127.0.0.1:9000:8080"
+        "0.0.0.0:2022:2022"
+      ];
+      environment = {
+        TZ = "UTC";
+        WINGS_UID = "988";
+        WINGS_GID = "988";
+        WINGS_USERNAME = "pelican";
+      };
       volumes = [
         "/var/run/docker.sock:/var/run/docker.sock"
+        "/var/lib/docker/containers/:/var/lib/docker/containers/"
 
-        "/run/wings:/run/wings"
-        "/tmp/pterodactyl:/tmp/pterodactyl"
-
-        "/var/lib/pterodactyl/config.yml:/etc/pterodactyl/config.yml"
-        "/var/lib/pterodactyl/volumes:/var/lib/pterodactyl/volumes"
-        "/var/lib/pterodactyl/backups:/var/lib/pterodactyl/backups"
+        "/etc/pelican/:/etc/pelican/"
+        "/var/lib/pelican/:/var/lib/pelican/"
+        "/var/log/pelican/:/var/log/pelican/"
+        "/tmp/pelican/:/tmp/pelican/"
+      ];
+      extraOptions = [
+        "--network=wings0"
+        "--privileged"
+        "-t"
       ];
     };
   };

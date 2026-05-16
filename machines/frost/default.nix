@@ -67,7 +67,7 @@
 
     wings = {
       enable = true;
-      fqdn = "frost.klinckaert.be";
+      domain = "wings.frost.klinckaert.be";
     };
 
     pocket-id = {
