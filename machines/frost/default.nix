@@ -2,8 +2,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./../../modules/pterodactyl/pyropanel.nix
-    ./../../modules/pterodactyl/wings.nix
+    ./../../modules/pelican/panel.nix
+    ./../../modules/pelican/wings.nix
     ./../../modules/server/kuma.nix
     ./../../modules/server/pocket-id.nix
     ./../../modules/server/silverbullet.nix
@@ -60,9 +60,9 @@
   };
 
   myServices = {
-    pyropanel = {
+    pelicanpanel = {
       enable = true;
-      fqdn = "crux.klinckaert.be";
+      domain = "panel.klinckaert.be";
     };
 
     wings = {

@@ -57,7 +57,7 @@
     {
       nixosConfigurations = {
         frost = mkMachine { hostname = "frost"; };
-        puk = mkMachine { hostname = "puk"; };
+        # puk = mkMachine { hostname = "puk"; };
         tatsu = mkMachine { hostname = "tatsu"; };
 
         kotpi = mkMachine {
@@ -65,17 +65,17 @@
           system = "aarch64-linux";
         };
 
-        minimal-installer = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            isoConfig
-          ];
-        };
+        #   minimal-installer = nixpkgs.lib.nixosSystem {
+        #     system = "x86_64-linux";
+        #     modules = [
+        #       "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        #       isoConfig
+        #     ];
+        #   };
       };
 
-      packages."x86_64-linux" = {
-        minimal-iso = self.nixosConfigurations.minimal-installer.config.system.build.isoImage;
-      };
+      # packages."x86_64-linux" = {
+      #   minimal-iso = self.nixosConfigurations.minimal-installer.config.system.build.isoImage;
+      # };
     };
 }
