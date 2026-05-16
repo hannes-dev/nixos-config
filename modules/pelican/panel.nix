@@ -47,6 +47,8 @@ in
         APP_ENV = "production";
         APP_DEBUG = "false";
 
+        APP_INSTALLED = "true";
+
         BEHIND_PROXY = "true";
         TRUSTED_PROXIES = "127.0.0.1";
 
